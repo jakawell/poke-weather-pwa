@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule, MatSidenavModule, MatCardModule } from '@angular/material';
 import { environment } from '../environments/environment';
 
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes
     ),
+    FlexLayoutModule,
     environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : [],
     BrowserAnimationsModule,
     MatToolbarModule,

@@ -1,11 +1,28 @@
-<mat-card style="margin: 12px;">
-  <mat-card-header>
-    <span class="mat-headline">Your Weather</span>
-  </mat-card-header>
-</mat-card>
+<div class="page-container"
+     fxLayout
+     fxLayout.xs="column"
+     fxLayoutAlign="space-evenly"
+     fxLayoutGap="12px"
+     fxLayoutGap.xs="4px">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Your Weather</mat-card-title>
+      <mat-card-subtitle>12:00pm EST</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxLayout fxLayoutGap="8px">
+        <img src="/assets/weather_icons/128/32.png" width="72" height="72" />
+        <div fxLayout="column" fxLayoutAlign="start">
+          <span class="mat-headline">Partly Cloudy</span>
+          <span class="mat-title">32 °F</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
-<mat-card style="margin: 12px;">
-  <mat-card-header>
-    <span class="mat-headline">Game Weather</span>
-  </mat-card-header>
-</mat-card>
+  <mat-card>
+   <mat-card-content>
+     <span class="mat-headline">Game Weather</span>
+   </mat-card-content>
+  </mat-card>
+</div>
