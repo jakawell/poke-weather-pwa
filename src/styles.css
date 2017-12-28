@@ -5,3 +5,28 @@
 .page-container {
   margin: 12px 8px;
 }
+
+.weather-title {
+  font: 400 24px/32px Roboto,"Helvetica Neue",sans-serif;
+}
+
+.weather-subtitle {
+  font: 200 20px/32px Roboto,"Helvetica Neue",sans-serif;
+}
+
+.weather-detail {
+  margin: 0px 0px 12px;
+}
+
+.weather-summary-item {
+  display: block;
+  margin: 0 auto;
+}
+
+.weather-summary-title {
+  font: 500 12px Roboto,"Helvetica Neue",sans-serif;
+}
+
+.weather-summary-subtitle {
+  font: 200 12px Roboto,"Helvetica Neue",sans-serif;
+}
