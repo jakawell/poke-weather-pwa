@@ -1,13 +1,14 @@
 <div class="page-container"
      fxLayout
-     fxLayout.xs="column"
+     fxLayout.xs="{{isLoading ? 'row' : 'column'}}"
      fxLayoutAlign="space-evenly"
      fxLayoutGap="12px"
      fxLayoutGap.xs="4px">
-  <mat-card>
+  <mat-spinner *ngIf="isLoading" [diameter]="48"></mat-spinner>
+  <mat-card *ngIf="!isLoading">
     <mat-card-header>
       <mat-card-title>{{currentEarthLocation}}</mat-card-title>
-      <mat-card-subtitle>{{currentEarthConditions.forecastHourLong}}</mat-card-subtitle>
+      <mat-card-subtitle>{{currentEarthConditions.forecastHourLong}} (local time)</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <div class="weather-detail" fxLayout fxLayoutGap="8px">
@@ -27,22 +28,22 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card>
+  <mat-card *ngIf="!isLoading">
     <mat-card-header>
       <mat-card-title>Game weather</mat-card-title>
-      <mat-card-subtitle>{{currentGameConditions.forecastHourLong}}</mat-card-subtitle>
+      <mat-card-subtitle>{{currentGameConditions.forecastHourLong}} (local time)</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <div class="weather-detail" fxLayout fxLayoutGap="8px">
-        <img src="/assets/pogo_weather_icons/185/Weather_{{currentGameConditions.gameConditionIconName}}.png" alt="{{currentGameConditions.conditionTitle}}" width="72" height="72" />
+        <img src="/assets/pogo_weather_icons/185/Weather_{{currentGameConditions.gameConditionIconName}}.png" alt="{{currentGameConditions.gameConditionTitle}}" width="72" height="72" />
         <div fxLayout="column" fxLayoutAlign="start">
-          <span class="weather-title">{{currentGameConditions.conditionTitle}}</span>
+          <span class="weather-title">{{currentGameConditions.gameConditionTitle}}</span>
           <span class="weather-subtitle">{{currentGameConditions.windSpeed}} {{currentGameConditions.windDirection}}, {{currentGameConditions.temperature}} °{{currentGameConditions.temperatureUnit}}</span>
         </div>
       </div>
       <div fxLayout fxLayoutAlign="space-evenly" fxLayoutGap="16px">
         <div fxLayout="column" *ngFor="let forecast of upcomingGameConditions">
-          <img class="weather-summary-item" src="/assets/pogo_weather_icons/64/Weather_Icon_{{forecast.gameConditionIconName}}.png" alt="{{forecast.conditionTitle}}" width="36" height="36" />
+          <img class="weather-summary-item" src="/assets/pogo_weather_icons/64/Weather_Icon_{{forecast.gameConditionIconName}}.png" alt="{{forecast.gameConditionTitle}}" width="36" height="36" />
           <span class="weather-summary-item weather-summary-title">{{forecast.forecastHourShort}}</span>
           <span class="weather-summary-item weather-summary-subtitle">{{forecast.windSpeed}} {{forecast.windDirection}}</span>
         </div>
