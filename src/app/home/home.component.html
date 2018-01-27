@@ -1,53 +1,83 @@
 <div class="page-container"
-     fxLayout
-     fxLayout.xs="{{isLoading ? 'row' : 'column'}}"
-     fxLayoutAlign="space-evenly"
+     fxLayout="column"
+     fxLayoutAlign="space-around center"
      fxLayoutGap="12px"
-     fxLayoutGap.xs="4px">
-  <mat-spinner *ngIf="isLoading" [diameter]="48"></mat-spinner>
-  <mat-card *ngIf="!isLoading">
-    <mat-card-header>
-      <mat-card-title>{{currentEarthLocation}}</mat-card-title>
-      <mat-card-subtitle>{{currentEarthConditions.forecastHourLong}} (local time)</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="weather-detail" fxLayout fxLayoutGap="8px">
-        <img src="/assets/weather_icons/128/{{currentEarthConditions.conditionIconCode}}.png" alt="{{currentEarthConditions.conditionTitle}}" width="72" height="72" />
-        <div fxLayout="column" fxLayoutAlign="start">
-          <span class="weather-title">{{currentEarthConditions.conditionTitle}}</span>
-          <span class="weather-subtitle">{{currentEarthConditions.windSpeed}} {{currentEarthConditions.windDirection}}, {{currentEarthConditions.temperature}} °{{currentEarthConditions.temperatureUnit}}</span>
-        </div>
+     fxLayoutGap.xs="8px">
+
+  <mat-card class="search-card">
+    <div fxLayout fxLayout.xs="column" fxLayoutGap="8px" fxLayoutAlign="space-around center">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Location" [(ngModel)]="searchQuery" (keyup.enter)="updateForecasts(false)">
+      </mat-form-field>
+      <div fxLayout fxLayoutGap="4px">
+        <button mat-raised-button color="primary" (click)="updateForecasts(false)">Search</button>
+        <button mat-raised-button color="accent" (click)="setPreciseLocation()">Find me</button>
       </div>
-      <div fxLayout fxLayoutAlign="space-evenly" fxLayoutGap="16px">
-        <div fxLayout="column" *ngFor="let forecast of upcomingEarthConditions">
-          <img class="weather-summary-item" src="/assets/weather_icons/64/{{forecast.conditionIconCode}}.png" alt="{{forecast.conditionTitle}}" width="36" height="36" />
-          <span class="weather-summary-item weather-summary-title">{{forecast.forecastHourShort}}</span>
-          <span class="weather-summary-item weather-summary-subtitle">{{forecast.windSpeed}} {{forecast.windDirection}}</span>
-        </div>
-      </div>
-    </mat-card-content>
+    </div>
   </mat-card>
 
-  <mat-card *ngIf="!isLoading">
+  <div fxLayout
+       fxLayout.xs="{{isLoading ? 'row' : 'column'}}"
+       fxLayoutAlign="space-evenly"
+       fxLayoutGap="12px"
+       fxLayoutGap.xs="4px">
+    <mat-spinner *ngIf="isLoading" [diameter]="48"></mat-spinner>
+
+    <mat-card *ngIf="!isResultsHidden">
+      <mat-card-header>
+        <mat-card-title>Game weather</mat-card-title>
+        <mat-card-subtitle>{{currentGameConditions.forecastHourLong}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="weather-detail" fxLayout fxLayoutGap="8px">
+          <img src="/assets/pogo_weather_icons/185/Weather_{{currentGameConditions.gameConditionIconName}}.png" alt="{{currentGameConditions.gameConditionTitle}}" width="72" height="72" />
+          <div fxLayout="column" fxLayoutAlign="start">
+            <span class="weather-title">{{currentGameConditions.gameConditionTitle}}</span>
+            <span class="weather-subtitle">{{currentGameConditions.windSpeed}} {{currentGameConditions.windDirection}}, {{currentGameConditions.temperature}} °{{currentGameConditions.temperatureUnit}}</span>
+          </div>
+        </div>
+        <div fxLayout fxLayoutAlign="space-evenly" fxLayoutGap="16px">
+          <div fxLayout="column" *ngFor="let forecast of upcomingGameConditions">
+            <img class="weather-summary-item" src="/assets/pogo_weather_icons/64/Weather_Icon_{{forecast.gameConditionIconName}}.png" alt="{{forecast.gameConditionTitle}}" width="36" height="36" />
+            <span class="weather-summary-item weather-summary-title">{{forecast.forecastHourShort}}</span>
+            <span class="weather-summary-item weather-summary-subtitle">{{forecast.windSpeed}} {{forecast.windDirection}}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="!isResultsHidden">
+      <mat-card-header>
+        <mat-card-title>{{currentEarthLocation}}</mat-card-title>
+        <mat-card-subtitle>{{currentEarthConditions.forecastHourLong}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="weather-detail" fxLayout fxLayoutGap="8px">
+          <img src="/assets/weather_icons/128/{{currentEarthConditions.conditionIconCode}}.png" alt="{{currentEarthConditions.conditionTitle}}" width="72" height="72" />
+          <div fxLayout="column" fxLayoutAlign="start">
+            <span class="weather-title">{{currentEarthConditions.conditionTitle}}</span>
+            <span class="weather-subtitle">{{currentEarthConditions.windSpeed}} {{currentEarthConditions.windDirection}}, {{currentEarthConditions.temperature}} °{{currentEarthConditions.temperatureUnit}}</span>
+          </div>
+        </div>
+        <div fxLayout fxLayoutAlign="space-evenly" fxLayoutGap="16px">
+          <div fxLayout="column" *ngFor="let forecast of upcomingEarthConditions">
+            <img class="weather-summary-item" src="/assets/weather_icons/64/{{forecast.conditionIconCode}}.png" alt="{{forecast.conditionTitle}}" width="36" height="36" />
+            <span class="weather-summary-item weather-summary-title">{{forecast.forecastHourShort}}</span>
+            <span class="weather-summary-item weather-summary-subtitle">{{forecast.windSpeed}} {{forecast.windDirection}}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="attribution-card">
     <mat-card-header>
-      <mat-card-title>Game weather</mat-card-title>
-      <mat-card-subtitle>{{currentGameConditions.forecastHourLong}} (local time)</mat-card-subtitle>
+      Weather provided by:
     </mat-card-header>
     <mat-card-content>
-      <div class="weather-detail" fxLayout fxLayoutGap="8px">
-        <img src="/assets/pogo_weather_icons/185/Weather_{{currentGameConditions.gameConditionIconName}}.png" alt="{{currentGameConditions.gameConditionTitle}}" width="72" height="72" />
-        <div fxLayout="column" fxLayoutAlign="start">
-          <span class="weather-title">{{currentGameConditions.gameConditionTitle}}</span>
-          <span class="weather-subtitle">{{currentGameConditions.windSpeed}} {{currentGameConditions.windDirection}}, {{currentGameConditions.temperature}} °{{currentGameConditions.temperatureUnit}}</span>
-        </div>
-      </div>
-      <div fxLayout fxLayoutAlign="space-evenly" fxLayoutGap="16px">
-        <div fxLayout="column" *ngFor="let forecast of upcomingGameConditions">
-          <img class="weather-summary-item" src="/assets/pogo_weather_icons/64/Weather_Icon_{{forecast.gameConditionIconName}}.png" alt="{{forecast.gameConditionTitle}}" width="36" height="36" />
-          <span class="weather-summary-item weather-summary-title">{{forecast.forecastHourShort}}</span>
-          <span class="weather-summary-item weather-summary-subtitle">{{forecast.windSpeed}} {{forecast.windDirection}}</span>
-        </div>
-      </div>
+      <a href="https://www.accuweather.com/" target="_blank">
+        <img src="/assets/AW_RGB_Small.png" alt="AccuWeather" width="100%" height="100%"/>
+      </a>
     </mat-card-content>
   </mat-card>
 </div>

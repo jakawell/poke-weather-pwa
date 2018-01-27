@@ -1,9 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "./app-theme";
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500");
 
 .page-container {
   margin: 12px 8px;
+}
+
+.search-card {
+  max-width: 400px;
+  padding: 4px;
+}
+
+.full-width {
+  width: 100%;
 }
 
 .weather-title {
@@ -29,4 +38,9 @@
 
 .weather-summary-subtitle {
   font: 200 12px Roboto,"Helvetica Neue",sans-serif;
+}
+
+.attribution-card {
+  max-width: 200px;
+  padding: 4px;
 }

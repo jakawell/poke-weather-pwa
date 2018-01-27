@@ -2,6 +2,7 @@ import * as moment from 'moment-timezone';
 
 export class ForecastModel {
   public forecastHour: Date;
+  public forecastHourTimezone: string;
   public conditionIconCode: number;
   public conditionTitle: string;
   public temperature: number;
@@ -12,8 +13,9 @@ export class ForecastModel {
   public isDaylight: boolean;
 
   //constructor();
-  constructor(forecastHour?: Date, conditionIconCode?: number, conditionTitle?: string, temperature?: number, temperatureUnit?: string, windSpeed?: number, windSpeedUnit?: string, windDirection?: string, isDaylight?: boolean) {
+  constructor(forecastHour?: Date, forecastHourTimezone?: string, conditionIconCode?: number, conditionTitle?: string, temperature?: number, temperatureUnit?: string, windSpeed?: number, windSpeedUnit?: string, windDirection?: string, isDaylight?: boolean) {
     this.forecastHour = forecastHour || new Date();
+    this.forecastHourTimezone = forecastHourTimezone || 'America/New_York';
     this.conditionIconCode = conditionIconCode || 15;
     this.conditionTitle = conditionTitle || '-';
     this.temperature = temperature || 0;
@@ -28,11 +30,11 @@ export class ForecastModel {
   }
 
   get forecastHourLong(): string {
-    return moment.tz(this.forecastHour, moment.tz.guess()).format('h:mm A');
+    return moment.tz(this.forecastHour, this.forecastHourTimezone).format('h:mm A zz');
   }
 
   get forecastHourShort(): string {
-    return moment.tz(this.forecastHour, moment.tz.guess()).format('h A');
+    return moment.tz(this.forecastHour,  this.forecastHourTimezone).format('h A zz');
   }
 
   get gameConditionIconName(): string {
@@ -97,7 +99,7 @@ export class ForecastModel {
     return result;
   }
 
-  static importFromAccuweather(source: any): ForecastModel {
+  static importFromAccuweather(timezone: string, source: any): ForecastModel {
     console.log("Parsing forecast: ", source);
     let forecastHour: Date = source.DateTime;
     let conditionTitle: string = source.IconPhrase;
@@ -139,6 +141,6 @@ export class ForecastModel {
       conditionIconCode = isDaylight ? 33 : 38;
     }
 
-    return new ForecastModel(forecastHour, conditionIconCode, conditionTitle, temperature, temperatureUnit, windSpeed, windSpeedUnit, windDirection, isDaylight);
+    return new ForecastModel(forecastHour, timezone, conditionIconCode, conditionTitle, temperature, temperatureUnit, windSpeed, windSpeedUnit, windDirection, isDaylight);
   }
 }
