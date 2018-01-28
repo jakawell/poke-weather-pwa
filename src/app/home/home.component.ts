@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
       }
       this.snackBar.open(message, 'Dismiss', {
         verticalPosition: 'top',
-        horizontalPosition: 'start',
+        horizontalPosition: 'center',
         duration: 5000
       });
     }, {
@@ -106,8 +106,17 @@ export class HomeComponent implements OnInit {
         uri: 'http://localhost:3000/weather',
         qs: location
       }, (error, response, body) => {
-      if (error) {
-        console.warn('API error: ', error);
+      if (error || response.statusCode < 200 || response.statusCode > 299) {
+        console.warn('API error', error ? error : JSON.parse(body));
+        let errorBody = body ? JSON.parse(body) : null;
+        let errorMessage = 'The weather service is currently experiencing problems. Please try again later.';
+        if (errorBody && errorBody.errorCode == 'BAD_SEARCH')
+          errorMessage = 'The location is not recognized by AccuWeather. Try a different search term.';
+        this.snackBar.open(errorMessage, 'Dismiss', {
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          duration: 5000
+        });
       }
       else {
         let results: any = JSON.parse(body);
